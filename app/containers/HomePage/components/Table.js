@@ -6,11 +6,6 @@ import { createStructuredSelector } from 'reselect';
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
-import { getUser } from '../actions';
-import { makeSelectUser } from '../selectors';
-import reducer from '../reducer';
-import saga from '../sagas';
-const key = 'home';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,7 +16,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import { Link } from 'react-router-dom';
-import { delUser } from '../actions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
@@ -31,6 +25,13 @@ import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
 import { AirlineSeatIndividualSuiteRounded } from '@material-ui/icons';
 import { yellow } from '@material-ui/core/colors';
+import { delUser, getUser } from '../actions';
+import saga from '../sagas';
+import reducer from '../reducer';
+import { makeSelectUser } from '../selectors';
+
+const key = 'home';
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -53,14 +54,11 @@ const Table1 = ({ user, getUsers, delUsers }) => {
   const classes = useStyles();
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
-  const handleIdUser = val => {
-    console.log(val);
-    localStorage.setItem('idUser', val);
+  const handleIdUser = (index, idUser) => {
+    localStorage.setItem('index', index);
+    localStorage.setItem('idUser', idUser);
   };
-  const handleEdit = val => {
-    console.log(val);
-    localStorage.setItem('idUser', val);
-  };
+
   return (
     <>
       <Button
@@ -91,7 +89,7 @@ const Table1 = ({ user, getUsers, delUsers }) => {
           </TableHead>
           <TableBody>
             {user !== undefined &&
-              user.map(row => (
+              user.map((row, index) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
                     {row.id}
@@ -110,14 +108,14 @@ const Table1 = ({ user, getUsers, delUsers }) => {
                         Link
                       </Link>
                     </Button>
-                    <Button variant="contained">
+                    <Button variant="contained" style={{ background: 'green' }}>
                       <Link
                         to="/userEdit"
                         style={{
                           color: 'white',
                           textDecoration: 'none',
                         }}
-                        onClick={() => handleEdit(row.id)}
+                        onClick={() => handleIdUser(index, row.id)}
                       >
                         Edit
                       </Link>

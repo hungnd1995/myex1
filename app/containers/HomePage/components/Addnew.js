@@ -1,14 +1,14 @@
 import React, { useEffect, memo, useState } from 'react';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
-import { makeSelectUser } from '../selectors';
-import reducer from '../reducer';
-import saga from '../sagas';
 import PropTypes from 'prop-types';
-import { addUser } from '../actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import { makeSelectUser } from '../selectors';
+import reducer from '../reducer';
+import saga from '../sagas';
+import { addUser } from '../actions';
 const key = 'home';
 
 export const Addnew = ({ user, addUsers }) => {
@@ -70,7 +70,7 @@ export const Addnew = ({ user, addUsers }) => {
           history.back();
         }}
       >
-        Submit
+        Addnew
       </button>
     </form>
   );
